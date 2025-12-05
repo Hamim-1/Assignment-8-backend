@@ -4,7 +4,7 @@ import AppError from "../errorHelpers/AppError";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../modules/user/user.model";
 import { Status } from "../modules/user/user.interface";
-// import { IsActive } from "../modules/user/user.interface";
+import { envVArs } from "../config/env";
 
 export const checkAuth = (...authRoles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -14,7 +14,11 @@ export const checkAuth = (...authRoles: string[]) => async (req: Request, res: R
             throw new AppError(403, "No Token Recived")
         }
 
-        const verifiedToken = verifyToken(accessToken, "secret") as JwtPayload;
+        const verifiedToken = verifyToken(accessToken, envVArs.JWT_ACCESS_SECRET) as JwtPayload;
+
+        if (!verifiedToken) {
+            throw new AppError(400, "Your session has expired. Please log in again.")
+        }
 
         const user = await User.findOne({ email: verifiedToken.email });
 
