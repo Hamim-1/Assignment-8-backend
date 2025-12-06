@@ -15,6 +15,6 @@ export interface IUser {
     password: string;
     role: Role;
     status: Status;
-    wishlist?: Types.ObjectId[];
+    wishlist: Types.ObjectId[];
 }
 

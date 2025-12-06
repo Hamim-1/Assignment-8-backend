@@ -6,9 +6,17 @@ import { checkAuth } from "../../middlewares/checkAuth";
 import { Role } from "./user.interface";
 
 const router = Router();
+
 router.post("/register", validateRequest(createUserZodSchema), UserController.createUser);
+
 router.get("/", checkAuth(Role.ADMIN), UserController.getAllUsers);
-router.patch("/:id/status", checkAuth(Role.ADMIN), UserController.updateUserStatus)
+
+router.patch("/:id/status", checkAuth(Role.ADMIN), UserController.updateUserStatus);
+
+router.post("/wishlist/:id", checkAuth(Role.USER), UserController.addToWishlist);
+
+router.delete("/wishlist/:id", checkAuth(Role.USER), UserController.removeFromWishlist);
+
 
 
 export const userRoutes = router;

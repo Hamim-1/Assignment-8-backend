@@ -3,6 +3,8 @@ import { User } from "./user.model";
 import bcryptjs from "bcrypt";
 import { envVArs } from "../../config/env";
 import AppError from "../../errorHelpers/AppError";
+import { Types } from "mongoose";
+import { Product } from "../product/product.model";
 
 const createUser = async (payload: Partial<IUser>) => {
     const { email, password, ...rest } = payload;
@@ -44,8 +46,37 @@ const getAllUser = async (query: any) => {
     return users;
 }
 
+const addToWishlist = async (productId: Types.ObjectId, userId: string) => {
+
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+        throw new AppError(404, "User not found")
+    }
+
+    if (user?.wishlist.some(id => id.equals(productId))) {
+        throw new AppError(400, "This product is already in your Wishlist");
+    }
+    user?.wishlist.push(productId);
+    user.save();
+    return user;
+}
+
+const removeFromWishlist = async (productId: Types.ObjectId, userId: string) => {
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+        throw new AppError(404, "User not found")
+    }
+
+
+    user.wishlist = user.wishlist.filter(id => !id.equals(productId));
+    await user.save();
+    return user;
+}
+
 export const UserService = {
     createUser,
     updateUserStatus,
-    getAllUser
+    getAllUser,
+    addToWishlist,
+    removeFromWishlist
 }
