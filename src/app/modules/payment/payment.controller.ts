@@ -5,16 +5,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import { PaymentService } from "./payment.service";
 import { SSLService } from "../sslCommerz/sslCommerz.service";
 
-const initPayment = catchAsync(async (req: Request, res: Response) => {
 
-    const result = await PaymentService.initPayment()
-    sendResponse(res, {
-        statusCode: 201,
-        success: true,
-        message: "Payment done successfully",
-        data: result,
-    });
-});
 const successPayment = catchAsync(async (req: Request, res: Response) => {
     const query = req.query;
     const result = await PaymentService.successPayment(query as Record<string, string>);
@@ -54,7 +45,6 @@ const validatePayment = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const PaymentController = {
-    initPayment,
     successPayment,
     failPayment,
     cancelPayment,

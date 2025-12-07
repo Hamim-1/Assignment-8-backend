@@ -5,10 +5,7 @@ import { PAYMENT_STATUS } from "./payment.interface";
 import { Payment } from "./payment.model";
 
 
-const initPayment = async () => {
 
-
-};
 const successPayment = async (query: Record<string, string>) => {
     const session = await Order.startSession();
     session.startTransaction();
@@ -99,7 +96,6 @@ const cancelPayment = async (query: Record<string, string>) => {
 
 
 export const PaymentService = {
-    initPayment,
     successPayment,
     failPayment,
     cancelPayment,

@@ -8,6 +8,7 @@ import { notFound } from "./app/middlewares/notFound";
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 const allowedOrigins = [
     "http://localhost:3000",
 ];

@@ -2,9 +2,17 @@ import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { ProductService } from "./product.service";
+import { IProduct } from "./product.interface";
+import { Product } from "./product.model";
 
 const addProduct = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const product = await ProductService.addProduct(req.body)
+
+    const payload: IProduct = {
+        ...req.body,
+        image: req.file?.path,
+        createdBy: req.user.userId
+    }
+    const product = await ProductService.addProduct(payload);
     sendResponse(res, {
         success: true,
         statusCode: 200,

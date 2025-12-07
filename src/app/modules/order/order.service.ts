@@ -4,7 +4,6 @@ import { PAYMENT_STATUS } from "../payment/payment.interface";
 import { Payment } from "../payment/payment.model";
 import { ISSLCommerz } from "../sslCommerz/sslCommerz.interface";
 import { SSLService } from "../sslCommerz/sslCommerz.service";
-// import { Payment } from "../payment/payment.model";
 import { User } from "../user/user.model";
 import { IOrder, ORDER_STATUS } from "./order.interface";
 import { Order } from "./order.model";
@@ -93,31 +92,7 @@ const createOrder = async (payload: IOrder, userId: string) => {
 };
 
 
-const getUserOrders = async () => {
-
-    return {}
-};
-
-const getOrderById = async () => {
-    return {}
-};
-
-const updateOrderStatus = async (
-
-) => {
-
-    return {}
-};
-
-const getAllOrders = async () => {
-
-    return {}
-};
 
 export const OrderService = {
-    createOrder,
-    getUserOrders,
-    getOrderById,
-    updateOrderStatus,
-    getAllOrders,
+    createOrder
 };
