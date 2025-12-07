@@ -1,0 +1,66 @@
+
+import { envVArs } from "../../config/env";
+import AppError from "../../errorHelpers/AppError";
+import { Payment } from "../payment/payment.model";
+import { ISSLCommerz } from "./sslCommerz.interface";
+import axios from 'axios'
+
+const sslPaymentInit = async (payload: ISSLCommerz) => {
+    try {
+        const data = {
+            store_id: envVArs.SSL.STORE_ID,
+            store_passwd: envVArs.SSL.STORE_PASS,
+            total_amount: payload.amount,
+            currency: "USD",
+            tran_id: payload.transactionId,
+            success_url: `${envVArs.SSL.SSL_SUCCESS_BACKEND_URL}?transactionId=${payload.transactionId}`,
+            fail_url: `${envVArs.SSL.SSL_FAIL_BACKEND_URL}?transactionId=${payload.transactionId}`,
+            cancel_url: `${envVArs.SSL.SSL_CANCEL_BACKEND_URL}?transactionId=${payload.transactionId}`,
+            ipn_url: envVArs.SSL.SSL_IPN_URL,
+            shipping_method: "N/A",
+            product_name: "Tour",
+            product_category: "Service",
+            product_profile: "general",
+            cus_name: payload.name,
+            cus_email: payload.email,
+            cus_add1: payload.address,
+            cus_add2: "N/A",
+            cus_city: "Dhaka",
+            cus_state: "Dhaka",
+            cus_postcode: "1000",
+            cus_country: "Bangladesh",
+            cus_phone: payload.phoneNumber,
+            cus_fax: "01711111111",
+            ship_name: "N/A",
+            ship_add1: "N/A",
+            ship_add2: "N/A",
+            ship_city: "N/A",
+            ship_state: "N/A",
+            ship_postcode: 1000,
+            ship_country: "N/A",
+        }
+
+        const response = await axios({
+            method: "POST",
+            url: envVArs.SSL.SSL_PAYMENT_API,
+            data,
+            headers: { "Content-Type": "application/x-www-form-urlencoded" }
+        })
+        return response.data;
+    } catch (error: any) {
+        throw new AppError(400, error.message);
+    }
+}
+
+const validatePayment = async (payload: any) => {
+    const response = await axios({
+        method: "GET",
+        url: `${envVArs.SSL.SSL_VALIDATION_API}?val_id=${payload.val_id}&store_id=${envVArs.SSL.STORE_ID}&store_pass=${envVArs.SSL.STORE_PASS}`
+    });
+    await Payment.updateOne({ transactionId: payload.tran_id }, { paymentGatewayData: response.data }, { runValidators: true })
+}
+
+export const SSLService = {
+    sslPaymentInit,
+    validatePayment
+}
