@@ -15,7 +15,9 @@ export const validateRequest = (zodSchema: ZodObject) => async (req: Request, re
                 return next(new Error("Invalid JSON in 'data' field"));
             }
         }
+
         req.body = await zodSchema.parseAsync(req.body);
+
         next();
     } catch (error) {
         next(error)
