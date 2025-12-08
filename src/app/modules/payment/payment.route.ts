@@ -8,5 +8,5 @@ const router = express.Router();
 router.post("/success", PaymentController.successPayment);
 router.post("/fail", PaymentController.failPayment);
 router.post("/cancel", PaymentController.cancelPayment);
-router.post("/payment-validate", PaymentController.validatePayment);
+router.post("/validate-payment", PaymentController.validatePayment);
 export const PaymentRoutes = router;

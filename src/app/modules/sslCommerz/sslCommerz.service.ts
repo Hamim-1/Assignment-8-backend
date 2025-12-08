@@ -53,11 +53,20 @@ const sslPaymentInit = async (payload: ISSLCommerz) => {
 }
 
 const validatePayment = async (payload: any) => {
-    const response = await axios({
-        method: "GET",
-        url: `${envVArs.SSL.SSL_VALIDATION_API}?val_id=${payload.val_id}&store_id=${envVArs.SSL.STORE_ID}&store_pass=${envVArs.SSL.STORE_PASS}`
-    });
-    await Payment.updateOne({ transactionId: payload.tran_id }, { paymentGatewayData: response.data }, { runValidators: true })
+    try {
+        const response = await axios({
+            method: "GET",
+            url: `${envVArs.SSL.SSL_VALIDATION_API}?val_id=${payload.val_id}&store_id=${envVArs.SSL.STORE_ID}&store_passwd=${envVArs.SSL.STORE_PASS}`
+        })
+
+        await Payment.updateOne(
+            { transactionId: payload.tran_id },
+            { paymentGatewayData: response.data },
+            { runValidators: true })
+    } catch (error: any) {
+        console.log(error);
+        throw new AppError(401, `Payment Validation Error, ${error.message}`)
+    }
 }
 
 export const SSLService = {
