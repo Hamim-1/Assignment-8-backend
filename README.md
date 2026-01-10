@@ -1,6 +1,7 @@
 E-Commerce Backend API
 
 🌐 Live API: https://assignment-8-backend-omega.vercel.app/
+
 🎯 Overview
 
 This is a secure, role-based E-commerce Backend API built using Node.js, Express, TypeScript, and MongoDB.
@@ -25,7 +26,7 @@ bcrypt (Password hashing)
 
 Multer (Image upload)
 
-SSLCommerz / Payment Gateway Integration
+SSLCommerz ( Payment Gateway Integration)
 
 ⚙️ Setup & Installation
 1️⃣ Clone the Repository
