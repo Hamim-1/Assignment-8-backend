@@ -91,8 +91,24 @@ const createOrder = async (payload: IOrder, userId: string) => {
 
 };
 
+const getOrderHistory = async (userId: string) => {
+    const orders = await Order.find({ user: userId });
+
+    return orders
+};
+
+const getAllOrders = async () => {
+    const orders = await Order.find();
+
+    return orders
+};
+
+
+
 
 
 export const OrderService = {
-    createOrder
+    createOrder,
+    getOrderHistory,
+    getAllOrders
 };

@@ -14,6 +14,14 @@ router.post("/",
     validateRequest(createOrderZodSchema),
     OrderController.createOrder
 );
+router.get("/",
+    checkAuth(Role.ADMIN),
+    OrderController.getAllOrders
+);
+router.get("/history",
+    checkAuth(Role.USER),
+    OrderController.getOrderHistory
+);
 
 
 

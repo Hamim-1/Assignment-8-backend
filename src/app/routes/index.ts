@@ -26,7 +26,7 @@ const moduleRoutes = [
         route: CartRoutes
     },
     {
-        path: "/order",
+        path: "/orders",
         route: OrderRoutes
     },
     {
