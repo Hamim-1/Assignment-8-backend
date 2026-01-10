@@ -20,16 +20,26 @@ export class QueryBuilder<T> {
 
     search(searchableFields: string[]) {
         const search = this.query.search;
+        let words: string[];
+        if (search) {
+            words = search.split(" ").filter(Boolean);
+            words.unshift(search);
+        }
+
         if (search) {
             const searchQuery = {
-                $or: searchableFields.map(field => ({
-                    [field]: { $regex: search, $options: "i" }
-                }))
+                $or: searchableFields.flatMap(field =>
+                    words.map((word: string) => ({
+                        [field]: { $regex: word, $options: "i" }
+                    }))
+                ),
             };
             this.modelQuery = this.modelQuery.find(searchQuery);
         }
         return this;
     }
+
+
 
     sort() {
         const sort = this.query.sort || "-createdAt";

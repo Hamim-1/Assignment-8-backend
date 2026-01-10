@@ -12,6 +12,7 @@ app.set("trust proxy", 1);
 app.use(express.urlencoded({ extended: true }))
 const allowedOrigins = [
     "http://localhost:3000",
+    "https://assignment-8-frontend-wheat.vercel.app"
 ];
 
 app.use(cors({

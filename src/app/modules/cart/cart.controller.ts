@@ -17,8 +17,8 @@ const getCart = catchAsync(async (req: Request, res: Response, next: NextFunctio
 })
 const addToCart = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
-    const { productId } = req.body;
-    const cart = await CartService.addToCart(productId, user.userId);
+    const { id } = req.params;
+    const cart = await CartService.addToCart(new mongoose.Types.ObjectId(id), user.userId);
     sendResponse(res, {
         success: true,
         statusCode: 200,
@@ -49,7 +49,7 @@ const removeItem = catchAsync(async (req: Request, res: Response, next: NextFunc
     sendResponse(res, {
         success: true,
         statusCode: 200,
-        message: "Cart deleted successfully",
+        message: "Product removed from Cart successfully",
         data: cart,
     })
 

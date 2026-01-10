@@ -10,6 +10,7 @@ const router = Router();
 router.post("/register", validateRequest(createUserZodSchema), UserController.createUser);
 
 router.get("/", checkAuth(Role.ADMIN), UserController.getAllUsers);
+router.get("/wishlist", checkAuth(Role.USER), UserController.getWishlist);
 
 router.patch("/:id/status", checkAuth(Role.ADMIN), UserController.updateUserStatus);
 

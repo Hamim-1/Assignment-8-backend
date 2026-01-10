@@ -6,7 +6,7 @@ import { Product } from '../product/product.model';
 const getCart = async (userId: Types.ObjectId) => {
     const cart = await Cart.findOne({ user: userId }).populate({
         path: "items.product",
-        select: "title price dprice image quantity",
+        select: "title price discount image quantity",
     });
 
     if (!cart) {

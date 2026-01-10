@@ -74,14 +74,8 @@ const logout = catchAsync(async (req: Request, res: Response, next: NextFunction
 
 
 const getMe = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { accessToken } = req.cookies;
-
-    if (!accessToken) {
-        throw new AppError(401, "Unauthorized");
-    }
-
-    const user = await AuthService.getMe(accessToken);
-
+    const id = req.user.userId;
+    const user = await User.findById(id).select("-password");
     sendResponse(res, {
         success: true,
         statusCode: 200,

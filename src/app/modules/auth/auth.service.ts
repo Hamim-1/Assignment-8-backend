@@ -48,20 +48,9 @@ const getNewAccessToken = async (token: string) => {
     }
 }
 
-const getMe = async (accessToken: string) => {
-    const decoded = jwt.verify(accessToken, envVArs.JWT_ACCESS_SECRET) as JwtPayload;
 
-
-    const user = await User.findOne({ _id: decoded.userId }).select("-password");
-
-    if (!user) {
-        throw new AppError(401, "User not found");
-    }
-    return user;
-}
 
 export const AuthService = {
     credentialsLogin,
-    getNewAccessToken,
-    getMe
+    getNewAccessToken
 }

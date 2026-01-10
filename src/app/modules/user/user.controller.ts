@@ -3,6 +3,7 @@ import { UserService } from "./user.service";
 import { sendResponse } from "../../utils/sendResponse";
 import { catchAsync } from "../../utils/catchAsync";
 import mongoose from "mongoose";
+import { User } from "./user.model";
 
 
 const createUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -56,6 +57,23 @@ const addToWishlist = catchAsync(async (req: Request, res: Response, next: NextF
 
     })
 })
+
+const getWishlist = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    console.log(9);
+
+    const user = req.user;
+
+    const wishlist = await User.findById(user.userId).select("wishlist");
+
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "wishlist retrive successfully",
+        data: wishlist
+
+    })
+})
 const removeFromWishlist = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     const { id } = req.params;
@@ -75,5 +93,6 @@ export const UserController = {
     updateUserStatus,
     getAllUsers,
     addToWishlist,
-    removeFromWishlist
+    removeFromWishlist,
+    getWishlist
 }

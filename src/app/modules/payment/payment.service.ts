@@ -1,4 +1,5 @@
 
+import { Cart } from "../cart/cart.model";
 import { ORDER_STATUS } from "../order/order.interface";
 import { Order } from "../order/order.model";
 import { PAYMENT_STATUS } from "./payment.interface";
@@ -15,11 +16,17 @@ const successPayment = async (query: Record<string, string>) => {
                 status: PAYMENT_STATUS.PAID
             }, { session })
 
-        await Order.findByIdAndUpdate(updatedPayment?.order, {
-            status: ORDER_STATUS.COMPLETE
-        }, { session });
+        const updatedOrder = await Order.findByIdAndUpdate(
+            updatedPayment?.order,
+            { status: ORDER_STATUS.COMPLETE },
+            { session, new: true }
+        );
 
-
+        await Cart.findOneAndUpdate(
+            { user: updatedOrder?.user },
+            { items: [] },
+            { session }
+        );
 
         await session.commitTransaction();
         session.endSession();
