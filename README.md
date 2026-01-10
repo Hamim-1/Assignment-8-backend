@@ -30,7 +30,7 @@ SSLCommerz ( Payment Gateway Integration)
 
 ⚙️ Setup & Installation
 1️⃣ Clone the Repository
-git clone https://github.com/Hamim-1/Assignment-5.git
+git clone https://github.com/Hamim-1/Assignment-8-backend
 
 2️⃣ Install Dependencies
 npm install
@@ -106,14 +106,17 @@ JWT is sent via Authorization header or cookies.
 👤 User Management
 User Routes
 Endpoint	Method	Access	Description
+
 /api/v1/users/register	POST	Public	Register new user
 /api/v1/users	GET	Admin	Get all users
 /api/v1/users/:id/status	PATCH	Admin	Block / Unblock user
 /api/v1/users/wishlist	GET	User	Get wishlist
 /api/v1/users/wishlist/:id	POST	User	Add product to wishlist
 /api/v1/users/wishlist/:id	DELETE	User	Remove product from wishlist
+
 📦 Product Management
 Product Routes
+
 Endpoint	Method	Access	Description
 /api/v1/products	GET	Public	Get all products
 /api/v1/products/:id	GET	Public	Get single product
