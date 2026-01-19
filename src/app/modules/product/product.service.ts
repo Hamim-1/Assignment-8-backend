@@ -15,12 +15,12 @@ const getAllProduct = async (query: Record<string, string>) => {
     const productData = queryBuilder
         .search(productSearchableFields)
         .filter()
+        .filterByPrice()
         .sort()
-        .paginate()
-        .build()
 
-    const data = await productData;
     const meta = await queryBuilder.getMeta();
+    const data = await productData.paginate().build();
+
 
     return {
         data,

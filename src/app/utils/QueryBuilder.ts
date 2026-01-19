@@ -18,6 +18,27 @@ export class QueryBuilder<T> {
         return this;
     }
 
+    filterByPrice() {
+
+        if (this.query.minPrice || this.query.maxPrice) {
+            const priceQuery: Record<string, any> = {};
+            if (this.query.minPrice) {
+                priceQuery.$gte = Number(this.query.minPrice);
+            }
+
+
+            if (this.query.maxPrice) {
+                priceQuery.$lte = Number(this.query.maxPrice);
+            }
+
+            this.modelQuery = this.modelQuery.find({
+                price: priceQuery,
+            });
+        }
+
+        return this;
+    }
+
     search(searchableFields: string[]) {
         const search = this.query.search;
         let words: string[];
@@ -34,6 +55,7 @@ export class QueryBuilder<T> {
                     }))
                 ),
             };
+
             this.modelQuery = this.modelQuery.find(searchQuery);
         }
         return this;
@@ -49,7 +71,7 @@ export class QueryBuilder<T> {
 
     paginate() {
         const page = Number(this.query.page) || 1;
-        const limit = Number(this.query.limit) || 9;
+        const limit = Number(this.query.limit) || 12;
         const skip = (page - 1) * limit;
         this.modelQuery = this.modelQuery.limit(limit).skip(skip);
         return this;
@@ -59,10 +81,10 @@ export class QueryBuilder<T> {
     }
 
     async getMeta() {
-        const totalDocuments = await this.modelQuery.model.countDocuments()
+        const totalDocuments = await this.modelQuery.clone().countDocuments()
 
         const page = Number(this.query.page) || 1
-        const limit = Number(this.query.limit) || 9;
+        const limit = Number(this.query.limit) || 12;
 
         const totalPage = Math.ceil(totalDocuments / limit)
 
