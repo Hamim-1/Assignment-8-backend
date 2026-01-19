@@ -92,10 +92,35 @@ const createOrder = async (payload: IOrder, userId: string) => {
 };
 
 const getOrderHistory = async (userId: string) => {
-    const orders = await Order.find({ user: userId });
+    const orders = await Order.find({ user: userId })
+        .select("products payment status createdAt")
+        .populate({
+            path: "products",
+            select: "image"
+        })
+        .populate({
+            path: "payment",
+            select: "amount"
+        });
 
-    return orders
+    return orders;
 };
+const geCancelledtOrders = async (userId: string) => {
+    const orders = await Order.find({ user: userId, status: "CANCEL" })
+        .select("products payment status createdAt")
+        .populate({
+            path: "products",
+            select: "image"
+        })
+        .populate({
+            path: "payment",
+            select: "amount"
+        });
+
+    return orders;
+};
+
+
 
 const getAllOrders = async () => {
     const orders = await Order.find();
@@ -110,5 +135,6 @@ const getAllOrders = async () => {
 export const OrderService = {
     createOrder,
     getOrderHistory,
-    getAllOrders
+    getAllOrders,
+    geCancelledtOrders
 };

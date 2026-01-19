@@ -59,7 +59,6 @@ const addToWishlist = catchAsync(async (req: Request, res: Response, next: NextF
 })
 
 const getWishlist = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    console.log(9);
 
     const user = req.user;
 
