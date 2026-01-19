@@ -1,5 +1,3 @@
-directly. Here it is:
-
 # 🛒 E-Commerce Backend API
 
 🌐 **Live API:** [https://assignment-8-backend-omega.vercel.app/](https://assignment-8-backend-omega.vercel.app/)
