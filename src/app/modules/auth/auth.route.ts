@@ -13,4 +13,6 @@ router.post("/refresh-token", authController.getNewAccessToken);
 
 router.post("/logout", authController.logout);
 
+router.post("/change-password", checkAuth(Role.USER), authController.changePassword);
+
 export const AuthRoutes = router;

@@ -48,9 +48,27 @@ const getNewAccessToken = async (token: string) => {
     }
 }
 
+const changePassword = async (id: string, payload: Record<string, string>) => {
+
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    const isPasswordMatched = await bcryptjs.compare(payload.password as string, user.password);
+    if (!isPasswordMatched) {
+        throw new Error("Password is Incorrect");
+    }
+    const hashedNewPassword = await bcryptjs.hash(payload.newPassword, Number(envVArs.BCRYPT_SALT_ROUND));
+
+    await User.findByIdAndUpdate(id, { password: hashedNewPassword });
+    return null
+}
+
 
 
 export const AuthService = {
     credentialsLogin,
-    getNewAccessToken
+    getNewAccessToken,
+    changePassword
 }
