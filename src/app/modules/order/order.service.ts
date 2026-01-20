@@ -69,8 +69,8 @@ const createOrder = async (payload: IOrder, userId: string) => {
         const sslPayload: ISSLCommerz = {
             name: userName,
             email: userEmail,
-            phoneNumber: userPhone,
-            address: userAddress,
+            phoneNumber: "01711111111",
+            address: "Dhaka",
             amount: totalAmount,
             transactionId,
         }
