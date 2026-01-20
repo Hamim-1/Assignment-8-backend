@@ -11,12 +11,12 @@ const sslPaymentInit = async (payload: ISSLCommerz) => {
             store_id: envVArs.SSL.STORE_ID,
             store_passwd: envVArs.SSL.STORE_PASS,
             total_amount: payload.amount,
-            currency: "USD",
+            currency: "BDT",
             tran_id: payload.transactionId,
             success_url: `${envVArs.SSL.SSL_SUCCESS_BACKEND_URL}?transactionId=${payload.transactionId}`,
             fail_url: `${envVArs.SSL.SSL_FAIL_BACKEND_URL}?transactionId=${payload.transactionId}`,
             cancel_url: `${envVArs.SSL.SSL_CANCEL_BACKEND_URL}?transactionId=${payload.transactionId}`,
-            ipn_url: envVArs.SSL.SSL_IPN_URL,
+            // ipn_url: envVArs.SSL.SSL_IPN_URL,
             shipping_method: "N/A",
             product_name: "Tour",
             product_category: "Service",
@@ -30,7 +30,7 @@ const sslPaymentInit = async (payload: ISSLCommerz) => {
             cus_postcode: "1000",
             cus_country: "Bangladesh",
             cus_phone: payload.phoneNumber,
-            cus_fax: "01711111111",
+            // cus_fax: "01711111111",
             ship_name: "N/A",
             ship_add1: "N/A",
             ship_add2: "N/A",
@@ -48,6 +48,8 @@ const sslPaymentInit = async (payload: ISSLCommerz) => {
         })
         return response.data;
     } catch (error: any) {
+        console.log(error);
+
         throw new AppError(400, error.message);
     }
 }
